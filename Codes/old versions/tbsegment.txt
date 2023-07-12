@@ -1,0 +1,38 @@
+module Segment_Encoder
+(
+  input [2:0] in,
+  output reg seg_a,seg_b,seg_c,seg_d,seg_e,seg_f,seg_g
+
+                              );
+reg [6:0] seg;
+always @(*)
+begin
+seg={seg_a,seg_b,seg_c,seg_d,seg_e,seg_f,seg_g};
+  case(in)
+           3'b000: seg=7'b1111110;
+           3'b001: seg=7'b0110000;
+           3'b010: seg=7'b1101101;
+           3'b011: seg=7'b1111001;
+          default: seg=7'b1001111; 
+  endcase
+{seg_a,seg_b,seg_c,seg_d,seg_e,seg_f,seg_g}=seg;
+end
+endmodule
+
+
+module Segment_Encoder_test();
+reg [2:0] in;
+wire seg_a,seg_b,seg_c,seg_d,seg_e,seg_f,seg_g ;
+
+
+initial
+begin
+in=3'b000; #100;
+in=3'b001; #100;  
+in=3'b010: #100; 
+in=3'b011; #100;
+in=3'b111; #100;
+end
+Segment_Encoder s (in,seg_a,seg_b,seg_c,seg_d,seg_e,seg_f,seg_g);
+
+endmodule 

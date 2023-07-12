@@ -1,0 +1,47 @@
+module Register(
+input [15:0]datain,
+input  clk,sclr_n,clk_ena,
+output reg [15:0]reg_out
+);
+
+always@(posedge clk)
+ begin
+  if(clk_ena==1'b1&sclr_n==1'b0)
+     reg_out<=4'h0000;
+  else if(clk_ena==1'b1&sclr_n==1'b1)
+     reg_out<=datain;
+  else
+     reg_out<=reg_out;
+
+ end
+endmodule
+
+module Register_tb();
+  reg [15:0]datain;
+  reg clk,sclr_n,clk_ena;
+  wire [15:0]reg_out;
+  always
+   begin
+    clk<=1'b1; #100;
+    clk<=1'b0; #100;
+   end
+
+ initial
+ begin
+  clk_ena=1'b1;
+  sclr_n=1'b0;
+  datain=4'h1321;
+  #200;
+  clk_ena=1'b1;
+  sclr_n=1'b1;
+  datain=4'h1234;
+   #200;
+  clk_ena=1'b0;
+  sclr_n=1'b0;
+  datain=4'h1000;
+   #200;
+ end
+Register sms(datain,clk,sclr_n,clk_ena,reg_out);
+endmodule
+
+
